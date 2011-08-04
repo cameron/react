@@ -21,7 +21,12 @@
   };
 
   var getNodeKey = function(node){
-    return (node.reactKey = node.reactKey || js.util.unique('reactNode'));
+    var k = $(node).data("reactKey");
+    if(!k){
+      k = js.util.unique('reactNode');
+      $(node).data("reactKey", k);
+    }
+    return k;
   };
 
   var getScopeKey = function(object){
@@ -35,6 +40,10 @@
 
     name: function(name, object){
       this.scopes[name] = object;
+    },
+
+    getObjectKey: function(){
+      throw new Error('This method is deprecated - please use getScopeKey() instead');
     },
 
     set: function(object, key, value){
@@ -202,7 +211,7 @@
 
       var updateContext = js.create(this.commands, {
         root: root,
-        nodesToUpdate: Array.prototype.slice.apply(root.querySelectorAll('[react]')),
+        nodesToUpdate: Array.prototype.slice.apply(js.arrayFromList(root.querySelectorAll('[react]'))),
         bequeathedScopeChains: {},
         loopItemTemplates: {}
       });
@@ -470,7 +479,7 @@
     },
 
     _getReactNodes: function(root){
-      return [root].concat(Array.prototype.slice.apply(root.querySelectorAll('[react]')));
+      return [root].concat(Array.prototype.slice.apply(js.arrayFromList(root.querySelectorAll('[react]'))));
     },
 
     classIf: function(conditionKey, nameKey){
