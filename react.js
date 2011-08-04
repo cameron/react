@@ -42,10 +42,6 @@
       this.scopes[name] = object;
     },
 
-    getObjectKey: function(){
-      throw new Error('This method is deprecated - please use getScopeKey() instead');
-    },
-
     set: function(object, key, value){
       object[key] = value;
       this.changed(object, key);
