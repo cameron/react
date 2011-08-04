@@ -212,7 +212,7 @@
 
       var updateContext = js.create(this.commands, {
         root: root,
-        nodesToUpdate: Array.prototype.slice.apply(root.querySelectorAll('[react]')),
+        nodesToUpdate: Array.prototype.slice.apply(js.arrayFromList(root.querySelectorAll('[react]'))),
         bequeathedScopeChains: {},
         loopItemTemplates: {}
       });
@@ -273,7 +273,6 @@
         // node has already been visited
         return;
       }
-
       if(updateContext.loopItemTemplates[this.getNodeKey(node)]){ // todo: get rid of all these references to 'loop item templates', use custom class instead
         updateContext.bequeathedScopeChains[nodeKey] = false;
         return;
@@ -571,7 +570,7 @@
     },
 
     _getReactNodes: function(root){
-      return [root].concat(Array.prototype.slice.apply(root.querySelectorAll('[react]')));
+      return [root].concat(Array.prototype.slice.apply(js.arrayFromList(root.querySelectorAll('[react]'))));
     },
 
     classIf: function(conditionKey, nameKey){
