@@ -31,7 +31,12 @@
     },
 
     getNodeKey: function(node){
-      return (node.reactKey = node.reactKey || js.util.unique('reactNode'));
+      var k = $(node).data("reactKey");
+      if(!k){
+        k = js.util.unique('reactNode');
+        $(node).data("reactKey", k);
+      }
+      return k;
     },
 
     getScopeKey: function(object){
